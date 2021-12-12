@@ -106,6 +106,7 @@ fn main() -> anyhow::Result<()> {
         .with_context(|| "failed to open log file")?;
 
     let mut sleep_time: Duration = DEFAULT_SLEEP;
+    let mut prev_n_bytes: usize = 0;
     loop {
         let mut buf: Vec<u8> = vec![0; 16 * 1024];
         let n_bytes: usize = upch
@@ -113,6 +114,10 @@ fn main() -> anyhow::Result<()> {
             .with_context(|| "failed to read RTT channel")?;
 
         if n_bytes == 0 {
+            if prev_n_bytes != 0 {
+                file.flush()
+                    .with_context(|| "failed to flush RTT log file")?;
+            }
             sleep(sleep_time);
             if sleep_time < MAX_SLEEP {
                 sleep_time *= 2;
@@ -123,5 +128,7 @@ fn main() -> anyhow::Result<()> {
             file.write_all(filled_buf)
                 .with_context(|| "failed to write RTT data to log file")?;
         }
+
+        prev_n_bytes = n_bytes;
     }
 }
