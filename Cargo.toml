@@ -12,7 +12,7 @@ repository = "https://github.com/newam/rtt-daemon"
 [dependencies]
 ctrlc = "3"
 anyhow = "1"
-object = "0.27"
+object = "0.28"
 probe-rs = "0.12"
 probe-rs-rtt = "0.12"
 clap = { version = "=3.0.0-rc.4", features = ["derive", "color"] }
