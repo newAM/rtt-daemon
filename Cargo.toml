@@ -10,10 +10,11 @@ keywords = ["embedded"]
 repository = "https://github.com/newam/rtt-daemon"
 
 [dependencies]
-ctrlc = "3"
 anyhow = "1"
+clap = { version = "=3.0.0-rc.4", features = ["derive", "color"] }
+ctrlc = "3"
+log = "0.4"
 object = "0.28"
 probe-rs = "0.12"
 probe-rs-rtt = "0.12"
-clap = { version = "=3.0.0-rc.4", features = ["derive", "color"] }
-log = "0.4"
+systemd-journal-logger = "0.4"

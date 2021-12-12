@@ -55,13 +55,18 @@ struct Args {
 fn main() -> anyhow::Result<()> {
     ctrlc::set_handler(|| std::process::exit(0)).with_context(|| "failed to set SIGINT handler")?;
 
+    systemd_journal_logger::init().with_context(|| "failed to initialize logging")?;
+    log::set_max_level(log::LevelFilter::Info);
+
     let args: Args = Args::parse();
 
     let target: Target =
         probe_rs::config::get_target_by_name(args.chip).with_context(|| "chip not found")?;
 
+    log::info!("Opening probe");
     let probe: Probe = Probe::open(args.probe).with_context(|| "failed to open probe")?;
 
+    log::info!("Attaching to target");
     let mut session: Session = if args.connect_under_reset {
         probe.attach_under_reset(target)
     } else {
@@ -88,8 +93,10 @@ fn main() -> anyhow::Result<()> {
     };
 
     let mut rtt: Rtt = if let Some(scan_region) = scan_region {
+        log::info!("Attaching to RTT region: {:?}", scan_region);
         Rtt::attach_region(&mut core, &memory_map, &scan_region)
     } else {
+        log::info!("Attaching to RTT region");
         Rtt::attach(&mut core, &memory_map)
     }
     .with_context(|| "failed to attach to RTT")?;
@@ -107,6 +114,7 @@ fn main() -> anyhow::Result<()> {
 
     let mut sleep_time: Duration = DEFAULT_SLEEP;
     let mut prev_n_bytes: usize = 0;
+    log::info!("Entering main loop");
     loop {
         let mut buf: Vec<u8> = vec![0; 16 * 1024];
         let n_bytes: usize = upch
