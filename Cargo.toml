@@ -1,0 +1,19 @@
+[package]
+name = "rtt-daemon"
+description = "A daemon to retrieve RTT logs."
+version = "0.1.0"
+readme = "README.md"
+edition = "2021"
+authors = ["Alex Martens <alexmgit@protonmail.com>"]
+categories = ["embedded", "hardware-support", "development-tools::debugging"]
+keywords = ["embedded"]
+repository = "https://github.com/newam/rtt-daemon"
+
+[dependencies]
+ctrlc = "3"
+anyhow = "1"
+object = "0.27"
+probe-rs = "0.12"
+probe-rs-rtt = "0.12"
+clap = { version = "=3.0.0-rc.4", features = ["derive", "color"] }
+log = "0.4"
