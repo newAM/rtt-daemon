@@ -114,7 +114,7 @@ fn main() -> anyhow::Result<()> {
             buf
         };
 
-        if buf.len() == 0 {
+        if buf.is_empty() {
             sleep(sleep_time);
             if sleep_time < MAX_SLEEP {
                 sleep_time *= 2;
