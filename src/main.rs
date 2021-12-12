@@ -3,8 +3,6 @@ use clap::Parser;
 use probe_rs::{config::MemoryRegion, Core, DebugProbeSelector, Probe, Session, Target};
 use probe_rs_rtt::{Rtt, ScanRegion, UpChannel};
 use std::{
-    fs::File,
-    io::Write,
     path::{Path, PathBuf},
     thread::sleep,
     time::Duration,
@@ -42,8 +40,6 @@ struct Args {
     chip: String,
     /// Probe to use, 'VID:PID' or 'VID:PID:Serial'.
     probe: DebugProbeSelector,
-    /// Path to file to write RTT output.
-    log: PathBuf,
     /// The path to the ELF file to be flashed.
     #[clap(long)]
     elf: Option<PathBuf>,
@@ -106,37 +102,35 @@ fn main() -> anyhow::Result<()> {
         .take(0)
         .with_context(|| "failed to attach to RTT up channel 0")?;
 
-    let mut file: File = std::fs::OpenOptions::new()
-        .append(true)
-        .create(true)
-        .open(args.log)
-        .with_context(|| "failed to open log file")?;
-
     let mut sleep_time: Duration = DEFAULT_SLEEP;
-    let mut prev_n_bytes: usize = 0;
     log::info!("Entering main loop");
     loop {
-        let mut buf: Vec<u8> = vec![0; 16 * 1024];
-        let n_bytes: usize = upch
-            .read(&mut core, &mut buf)
-            .with_context(|| "failed to read RTT channel")?;
+        let buf: Vec<u8> = {
+            let mut buf: Vec<u8> = vec![0; 64 * 1024];
+            let n_bytes: usize = upch
+                .read(&mut core, &mut buf)
+                .with_context(|| "failed to read RTT channel")?;
+            buf.truncate(n_bytes);
+            buf
+        };
 
-        if n_bytes == 0 {
-            if prev_n_bytes != 0 {
-                file.flush()
-                    .with_context(|| "failed to flush RTT log file")?;
-            }
+        if buf.len() == 0 {
             sleep(sleep_time);
             if sleep_time < MAX_SLEEP {
                 sleep_time *= 2;
             }
         } else {
             sleep_time = DEFAULT_SLEEP;
-            let filled_buf: &[u8] = &buf[..n_bytes];
-            file.write_all(filled_buf)
-                .with_context(|| "failed to write RTT data to log file")?;
-        }
 
-        prev_n_bytes = n_bytes;
+            let data: String = match std::str::from_utf8(&buf) {
+                Ok(s) => s.to_string(),
+                Err(e) => {
+                    log::warn!("RTT data is not valid UTF-8: {}", e);
+                    String::from_utf8_lossy(&buf).to_string()
+                }
+            };
+
+            data.lines().for_each(|line| log::info!("[RTT] {}", line));
+        }
     }
 }

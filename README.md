@@ -14,12 +14,11 @@ Alex Martens <alexmgit@protonmail.com>
 A daemon to retrieve RTT logs.
 
 USAGE:
-    rtt-daemon [OPTIONS] <CHIP> <PROBE> <LOG>
+    rtt-daemon [OPTIONS] <CHIP> <PROBE>
 
 ARGS:
     <CHIP>     Target chip
     <PROBE>    Probe to use, 'VID:PID' or 'VID:PID:Serial'
-    <LOG>      Path to file to write RTT output
 
 OPTIONS:
         --connect-under-reset    Connect to the target under reset
@@ -29,7 +28,7 @@ OPTIONS:
 ```
 
 ```bash
-rtt-daemon STM32H743ZITx 0483:374e:005500353438511834313939 log.txt --connect-under-reset --elf ~/project/target/thumbv7em-none-eabihf/debug/cec
+rtt-daemon STM32H743ZITx 0483:374e:005500353438511834313939 --connect-under-reset --elf ~/project/target/thumbv7em-none-eabihf/debug/cec
 ```
 
 [probe-rs]: https://probe.rs/
