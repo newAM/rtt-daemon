@@ -9,8 +9,6 @@ A daemon to retrieve RTT logs using [probe-rs].
 ```text
 rtt-daemon 0.1.0
 
-Alex Martens <alexmgit@protonmail.com>
-
 A daemon to retrieve RTT logs.
 
 USAGE:
