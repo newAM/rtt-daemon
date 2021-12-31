@@ -8,7 +8,6 @@ A daemon to retrieve RTT logs using [probe-rs].
 
 ```text
 rtt-daemon 0.1.0
-
 A daemon to retrieve RTT logs.
 
 USAGE:
@@ -20,7 +19,7 @@ ARGS:
 
 OPTIONS:
         --connect-under-reset    Connect to the target under reset
-        --elf <ELF>              The path to the ELF file to be flashed
+        --elf <ELF>              Path to the ELF file to speed up locating the RTT control block
     -h, --help                   Print help information
     -V, --version                Print version information
 ```

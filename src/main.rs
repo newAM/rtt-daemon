@@ -40,7 +40,7 @@ struct Args {
     chip: String,
     /// Probe to use, 'VID:PID' or 'VID:PID:Serial'.
     probe: DebugProbeSelector,
-    /// The path to the ELF file to be flashed.
+    /// Path to the ELF file to speed up locating the RTT control block.
     #[clap(long)]
     elf: Option<PathBuf>,
     /// Connect to the target under reset
