@@ -17,10 +17,8 @@ where
 {
     use object::{Object, ObjectSymbol, Symbol};
 
-    let bin_data: Vec<u8> =
-        std::fs::read(elf_path).with_context(|| "failed to read server-radio ELF file")?;
-    let obj_file =
-        object::File::parse(&*bin_data).with_context(|| "failed to parse server-radio ELF file")?;
+    let bin_data: Vec<u8> = std::fs::read(elf_path).with_context(|| "failed to read ELF file")?;
+    let obj_file = object::File::parse(&*bin_data).with_context(|| "failed to parse ELF file")?;
 
     let symbol: Symbol = obj_file
         .symbols()
