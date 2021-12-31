@@ -15,22 +15,22 @@ fn rtt_region<P>(elf_path: P) -> anyhow::Result<ScanRegion>
 where
     P: AsRef<Path>,
 {
-    use object::{Object, ObjectSymbol};
+    use object::{Object, ObjectSymbol, Symbol};
 
     let bin_data: Vec<u8> =
         std::fs::read(elf_path).with_context(|| "failed to read server-radio ELF file")?;
     let obj_file =
         object::File::parse(&*bin_data).with_context(|| "failed to parse server-radio ELF file")?;
-    for symbol in obj_file.symbols() {
-        if symbol.name() == Ok("_SEGGER_RTT") {
-            let addr: u32 = symbol
-                .address()
-                .try_into()
-                .with_context(|| "_SEGGER_RTT symbol is not located at a 32-bit address")?;
-            return Ok(ScanRegion::Exact(addr));
-        }
-    }
-    Err(anyhow::Error::msg("no _SEGGER_RTT symbol found"))
+
+    let symbol: Symbol = obj_file
+        .symbols()
+        .find(|symbol| symbol.name() == Ok("_SEGGER_RTT"))
+        .with_context(|| "_SEGGER_RTT symbol not found")?;
+    let addr: u32 = symbol
+        .address()
+        .try_into()
+        .with_context(|| "_SEGGER_RTT symbol is not located at a 32-bit address")?;
+    Ok(ScanRegion::Exact(addr))
 }
 
 #[derive(Parser, Debug)]
