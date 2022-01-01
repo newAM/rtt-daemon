@@ -11,7 +11,7 @@ repository = "https://github.com/newam/rtt-daemon"
 
 [dependencies]
 anyhow = "1"
-clap = { version = "=3.0.0-rc.9", features = ["derive", "color"] }
+clap = { version = "3", features = ["derive", "color"] }
 ctrlc = "3"
 log = "0.4"
 object = "0.28"
