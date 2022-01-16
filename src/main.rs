@@ -76,7 +76,7 @@ fn main() -> anyhow::Result<()> {
         match rtt_region(elf) {
             Ok(region) => Some(region),
             Err(e) => {
-                log::error!("failed to get RTT region from ELF: {}", e);
+                log::error!("failed to get RTT region from ELF: {e}");
                 None
             }
         }
@@ -85,7 +85,7 @@ fn main() -> anyhow::Result<()> {
     };
 
     let mut rtt: Rtt = if let Some(scan_region) = scan_region {
-        log::info!("Attaching to RTT region: {:?}", scan_region);
+        log::info!("Attaching to RTT region: {scan_region:?}");
         Rtt::attach_region(&mut core, &memory_map, &scan_region)
     } else {
         log::info!("Attaching to RTT region");
@@ -121,12 +121,12 @@ fn main() -> anyhow::Result<()> {
             let data: String = match std::str::from_utf8(&buf) {
                 Ok(s) => s.to_string(),
                 Err(e) => {
-                    log::warn!("RTT data is not valid UTF-8: {}", e);
+                    log::warn!("RTT data is not valid UTF-8: {e}");
                     String::from_utf8_lossy(&buf).to_string()
                 }
             };
 
-            data.lines().for_each(|line| log::info!("[RTT] {}", line));
+            data.lines().for_each(|line| log::info!("[RTT] {line}"));
         }
     }
 }
