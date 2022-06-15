@@ -2,59 +2,59 @@
   description = "A daemon to retrieve RTT logs using probe-rs";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, crane, flake-utils }:
     flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         cargoToml = nixpkgs.lib.importTOML ./Cargo.toml;
-      in
-      rec {
-        packages.${cargoToml.package.name} = pkgs.rustPlatform.buildRustPackage {
-          pname = cargoToml.package.name;
-          inherit (cargoToml.package) version;
+        craneLib = crane.lib.${system};
 
+        commonArgs = {
           src = ./.;
-
-          RUSTFLAGS = "-D warnings";
-
-          nativeBuildInputs = with pkgs; [ pkg-config ];
-
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
           buildInputs = with pkgs; [
             libusb1
             udev
           ];
-
-          cargoLock.lockFile = ./Cargo.lock;
-
-          doCheck = false;
-
-          meta = with pkgs.lib; {
-            inherit (cargoToml.package) description;
-            homepage = cargoToml.package.repository;
-            license = with licenses; [ mit ];
-          };
         };
 
-        packages.default = packages.${cargoToml.package.name};
-
-        devShells.default = packages.default;
+        cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+      in
+      rec {
+        packages.default = craneLib.buildPackage (commonArgs // {
+          inherit cargoArtifacts;
+        });
+        packages.${cargoToml.package.name} = packages.default;
 
         checks = {
-          format = pkgs.runCommand "format"
-            {
-              inherit (packages.default) nativeBuildInputs;
-              buildInputs = with pkgs; [ rustfmt cargo ] ++ packages.default.buildInputs;
-            } ''
-            ${pkgs.rustfmt}/bin/cargo-fmt fmt --manifest-path ${./.}/Cargo.toml -- --check
+          pkg = packages.default;
+
+          clippy = craneLib.cargoClippy (commonArgs // {
+            inherit cargoArtifacts;
+            cargoClippyExtraArgs = "-- --deny warnings";
+          });
+
+          rustfmt = craneLib.cargoFmt { src = ./.; };
+
+          nixpkgs-fmt = pkgs.runCommand "nixpkgs-fmt" { } ''
             ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}
             touch $out
           '';
 
-          lint = pkgs.runCommand "lint" { } ''
+          statix = pkgs.runCommand "statix" { } ''
             ${pkgs.statix}/bin/statix check ${./.}
             touch $out
           '';

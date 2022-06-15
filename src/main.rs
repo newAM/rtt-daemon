@@ -35,14 +35,16 @@ where
 #[clap(about, version, author)]
 struct Args {
     /// Target chip.
+    #[clap(value_parser)]
     chip: String,
     /// Probe to use, 'VID:PID' or 'VID:PID:Serial'.
+    #[clap(arg_enum, value_parser)]
     probe: DebugProbeSelector,
     /// Path to the ELF file to speed up locating the RTT control block.
-    #[clap(long)]
+    #[clap(long, value_parser)]
     elf: Option<PathBuf>,
     /// Connect to the target under reset
-    #[clap(long)]
+    #[clap(long, action)]
     connect_under_reset: bool,
 }
 
