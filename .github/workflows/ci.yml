@@ -37,7 +37,7 @@ jobs:
           sudo apt-get update -q -y
           sudo apt-get install -q -y qemu-system-aarch64 qemu-efi binfmt-support qemu-user-static
           mkdir -p ~/.config/nix
-          sudo bash -c "echo system-features=aarch64-linux >> /etc/nix/nix.conf"
+          sudo bash -c "echo extra-platforms = aarch64-linux >> /etc/nix/nix.conf"
       - run: nix build .#packages.aarch64-linux.default
 
   release:
