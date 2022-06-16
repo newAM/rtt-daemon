@@ -64,7 +64,7 @@
         ))
       {
         overlays.default = final: prev: {
-          macroboard = self.packages.${prev.system}.default;
+          rtt-daemon = self.packages.${prev.system}.default;
         };
         nixosModules.default = import ./module.nix;
       };
