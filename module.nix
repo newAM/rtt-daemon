@@ -41,7 +41,7 @@ in
     users.groups.rttdprobe = { };
 
     services.udev.extraRules = ''
-      SUBSYSTEM=="usb", \
+      SUBSYSTEMS=="usb", \
         ATTRS{idVendor}=="${cfg.probeVid}", \
         ATTRS{idProduct}=="${cfg.probePid}", \
         TAG+="systemd", \
