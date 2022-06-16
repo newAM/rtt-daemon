@@ -45,6 +45,7 @@ in
         ATTRS{idVendor}=="${cfg.probeVid}", \
         ATTRS{idProduct}=="${cfg.probePid}", \
         TAG+="systemd", \
+        ENV{SYSTEMD_ALIAS}+="/dev/rttdprobe", \
         GROUP="rttdprobe", \
         MODE="0660"
     '';
