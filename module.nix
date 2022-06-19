@@ -35,10 +35,16 @@ in
       type = lib.types.str;
       example = "/path/to/binary";
     };
+
+    group = lib.mkOption {
+      type = lib.types.str;
+      description = "Group with permissions to use the debug probe";
+      default = "rttdprobe";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    users.groups.rttdprobe = { };
+    users.groups."${cfg.group}" = { };
 
     services.udev.extraRules = ''
       SUBSYSTEMS=="usb", \
@@ -46,7 +52,7 @@ in
         ATTRS{idProduct}=="${cfg.probePid}", \
         TAG+="systemd", \
         ENV{SYSTEMD_ALIAS}+="/dev/rttdprobe", \
-        GROUP="rttdprobe", \
+        GROUP="${cfg.group}", \
         MODE="0660"
     '';
 
@@ -69,7 +75,7 @@ in
         RestartSec = 10;
 
         # hardening
-        SupplementaryGroups = [ "rttdprobe" ];
+        SupplementaryGroups = [ cfg.group ];
         DynamicUser = true;
         DevicePolicy = "closed";
         CapabilityBoundingSet = "";
