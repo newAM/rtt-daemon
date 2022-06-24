@@ -14,7 +14,7 @@ anyhow = "1"
 clap = { version = "3.2", features = ["derive"] }
 ctrlc = "3"
 log = "0.4"
-object = "0.28"
+object = "0.29"
 probe-rs = "0.12"
 probe-rs-rtt = "0.12"
 systemd-journal-logger = "0.5"
