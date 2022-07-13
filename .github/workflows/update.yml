@@ -1,25 +1,18 @@
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "13 3 * * *"
 
-name: CI
+name: Update
 
 jobs:
-  x86_64-check:
+  update:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
-      - uses: cachix/cachix-action@v10
-        with:
-          name: newam
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-      - run: nix flake check -L
-
-  aarch64-build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-linux
+          - aarch64-linux
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v17
@@ -31,8 +24,10 @@ jobs:
           name: newam
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: install aarch64-qemu
+        if: ${{ matrix.mcu == 'aarch64-linux' }}
         run: |
           DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -q -y
           sudo apt-get install -q -y qemu-system-aarch64 qemu-efi binfmt-support qemu-user-static
-      - run: nix build .#packages.aarch64-linux.default -L
+      - run: nix flake lock --update-input nixpkgs
+      - run: nix build ".#packages.${{ matrix.target }}.default" -L
