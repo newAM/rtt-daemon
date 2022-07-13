@@ -63,10 +63,11 @@ fn main() -> anyhow::Result<()> {
     let probe: Probe = Probe::open(args.probe).context("failed to open probe")?;
 
     log::info!("Attaching to target");
+    let permissions = probe_rs::Permissions::new();
     let mut session: Session = if args.connect_under_reset {
-        probe.attach_under_reset(target)
+        probe.attach_under_reset(target, permissions)
     } else {
-        probe.attach(target)
+        probe.attach(target, permissions)
     }
     .context("failed to attach to the target")?;
 
