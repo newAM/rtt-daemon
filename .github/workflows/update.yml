@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "13 3 * * *"
+
+name: Update
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-linux
+          - aarch64-linux
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v17
+        with:
+          extra_nix_config: |
+            extra-platforms = aarch64-linux
+      - uses: cachix/cachix-action@v10
+        with:
+          name: newam
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: install aarch64-qemu
+        if: ${{ matrix.mcu == 'aarch64-linux' }}
+        run: |
+          DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -q -y
+          sudo apt-get install -q -y qemu-system-aarch64 qemu-efi binfmt-support qemu-user-static
+      - run: nix flake update
+      - run: nix build ".#packages.${{ matrix.target }}.default" -L
