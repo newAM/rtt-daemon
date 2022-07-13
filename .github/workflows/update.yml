@@ -29,5 +29,5 @@ jobs:
           DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -q -y
           sudo apt-get install -q -y qemu-system-aarch64 qemu-efi binfmt-support qemu-user-static
-      - run: nix flake update
+      - run: nix flake lock --update-input nixpkgs
       - run: nix build ".#packages.${{ matrix.target }}.default" -L
