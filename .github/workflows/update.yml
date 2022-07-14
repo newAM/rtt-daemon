@@ -24,7 +24,7 @@ jobs:
           name: newam
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: install aarch64-qemu
-        if: ${{ matrix.mcu == 'aarch64-linux' }}
+        if: ${{ matrix.target == 'aarch64-linux' }}
         run: |
           DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -q -y
