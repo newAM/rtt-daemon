@@ -144,9 +144,8 @@ fn main() -> anyhow::Result<()> {
 
         if buf.is_empty() {
             sleep(Duration::from_millis(sleep_time_millis));
-            if sleep_time_millis < config.max_poll_rate_millis {
-                sleep_time_millis = sleep_time_millis.saturating_mul(2);
-            }
+            sleep_time_millis = sleep_time_millis.saturating_mul(2);
+            sleep_time_millis = min(sleep_time_millis, config.max_poll_rate_millis);
         } else {
             sleep_time_millis = config.min_poll_rate_millis;
 
