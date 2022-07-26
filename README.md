@@ -6,26 +6,39 @@ A daemon to retrieve RTT logs using [probe-rs].
 
 ## Usage
 
-```text
-rtt-daemon 0.1.0
-A daemon to retrieve RTT logs.
+This is designed to be used with [NixOS].
 
-USAGE:
-    rtt-daemon [OPTIONS] <CHIP> <PROBE>
+* Add this repository to your flake inputs:
 
-ARGS:
-    <CHIP>     Target chip
-    <PROBE>    Probe to use, 'VID:PID' or 'VID:PID:Serial'
+```nix
+{
+  inputs = {
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-OPTIONS:
-        --connect-under-reset    Connect to the target under reset
-        --elf <ELF>              Path to the ELF file to speed up locating the RTT control block
-    -h, --help                   Print help information
-    -V, --version                Print version information
+    rtt-daemon = {
+      url = "github:newam/rtt-daemon/main";
+      inputs.nixpkgs.follows = "unstable";
+    };
+  };
+}
 ```
 
-```bash
-rtt-daemon STM32H743ZITx 0483:374e:005500353438511834313939 --connect-under-reset --elf ~/project/target/thumbv7em-none-eabihf/debug/cec
+* Add `rtt-daemon.overlays.default` to `nixpkgs.overlays`.
+* Import the `rtt-daemon.nixosModules.default` module.
+* Configure:
+
+```nix
+{
+  services.rtt-daemon = {
+    enable = true;
+    probeVid = "1209";
+    probePid = "4853";
+    probeSerial = "130018001650563641333620";
+    chip = "STM32WLE5JCIx";
+    elf = "/path/to/my/binary";
+  };
+}
 ```
 
 [probe-rs]: https://probe.rs/
+[NixOS]: https://nixos.org/
