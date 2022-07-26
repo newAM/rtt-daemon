@@ -3,6 +3,7 @@ use probe_rs::{config::MemoryRegion, Core, DebugProbeSelector, Probe, Session, T
 use probe_rs_rtt::{Rtt, ScanRegion, UpChannel};
 use serde::Deserialize;
 use std::{
+    cmp::min,
     ffi::OsString,
     fs::File,
     io::BufReader,
