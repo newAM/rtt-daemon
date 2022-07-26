@@ -120,7 +120,7 @@ fn main() -> anyhow::Result<()> {
         log::info!("Attaching to RTT region: {scan_region:?}");
         Rtt::attach_region(&mut core, &memory_map, &scan_region)
     } else {
-        log::info!("Attaching to RTT region");
+        log::info!("Attaching to RTT");
         Rtt::attach(&mut core, &memory_map)
     }
     .context("Failed to attach to RTT")?;

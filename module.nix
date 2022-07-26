@@ -5,34 +5,36 @@ let
   cfg = config.services.rtt-daemon;
 in
 {
-  options.services.rtt-daemon = {
-    enable = lib.mkEnableOption "rtt-daemon";
+  options.services.rtt-daemon = with lib; {
+    enable = mkEnableOption "rtt-daemon";
 
-    probePid = lib.mkOption {
-      type = lib.types.str;
+    probePid = mkOption {
+      type = types.str;
       description = "Probe USB product ID.";
       example = "3748";
     };
 
-    probeVid = lib.mkOption {
-      type = lib.types.str;
+    probeVid = mkOption {
+      type = types.str;
       description = "Probe USB vendor ID.";
       example = "0483";
     };
 
-    probeSerial = lib.mkOption {
-      type = lib.types.str;
+    probeSerial = mkOption {
+      type = types.str;
       description = "Probe serial number.";
       example = "005500353438511834313939";
     };
 
-    chip = lib.mkOption {
-      type = lib.types.str;
+    chip = mkOption {
+      type = types.str;
       example = "STM32H743ZITx";
+      description = "Chip to attach to.";
     };
 
-    elf = lib.mkOption {
-      type = lib.types.str;
+    elf = mkOption {
+      type = types.nullOr types.str;
+      default = null;
       example = "/path/to/binary";
       description = ''
         Path to the ELF file loaded on the target.
@@ -41,26 +43,26 @@ in
       '';
     };
 
-    group = lib.mkOption {
-      type = lib.types.str;
+    group = mkOption {
+      type = types.str;
       description = "Group with permissions to use the debug probe.";
       default = "rttdprobe";
     };
 
-    connectUnderReset = lib.mkOption {
-      type = lib.types.bool;
+    connectUnderReset = mkOption {
+      type = types.bool;
       default = false;
       description = "Connect to the target under reset.";
     };
 
-    maxPollRateMillis = lib.mkOption {
-      type = lib.types.ints.u64;
+    maxPollRateMillis = mkOption {
+      type = types.ints.positive;
       description = "Maximum polling rate in milliseconds.";
       default = 3000;
     };
 
-    minPollRateMillis = lib.mkOption {
-      type = lib.types.ints.u64;
+    minPollRateMillis = mkOption {
+      type = types.ints.positive;
       description = "Minimum polling rate in milliseconds.";
       default = 10;
     };
