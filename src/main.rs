@@ -2,23 +2,13 @@ use anyhow::Context;
 use probe_rs::{config::MemoryRegion, Core, DebugProbeSelector, Probe, Session, Target};
 use probe_rs_rtt::{Rtt, ScanRegion, UpChannel};
 use serde::Deserialize;
-use std::{
-    cmp::min,
-    ffi::OsString,
-    fs::File,
-    io::BufReader,
-    path::{Path, PathBuf},
-    thread::sleep,
-    time::Duration,
-};
+use std::{cmp::min, ffi::OsString, fs::File, io::BufReader, thread::sleep, time::Duration};
 
-fn rtt_region<P>(elf_path: P) -> anyhow::Result<ScanRegion>
-where
-    P: AsRef<Path>,
-{
+fn rtt_region(elf_path: &str) -> anyhow::Result<ScanRegion> {
     use object::{Object, ObjectSymbol, Symbol};
 
-    let bin_data: Vec<u8> = std::fs::read(elf_path).context("Failed to read ELF file")?;
+    let bin_data: Vec<u8> = std::fs::read(elf_path)
+        .with_context(|| format!("Failed to read ELF file at {elf_path}"))?;
     let obj_file = object::File::parse(&*bin_data).context("Failed to parse ELF file")?;
 
     let symbol: Symbol = obj_file
@@ -39,7 +29,7 @@ struct Config {
     /// Probe to use, 'VID:PID' or 'VID:PID:Serial'.
     probe: String,
     /// Path to the ELF file to speed up locating the RTT control block.
-    elf: Option<PathBuf>,
+    elf: Option<String>,
     /// Connect to the target under reset.
     connect_under_reset: bool,
     /// Minimum polling rate in milliseconds.
@@ -106,7 +96,7 @@ fn main() -> anyhow::Result<()> {
     let mut core: Core = session.core(0).context("Failed to attach to core 0")?;
 
     let scan_region: Option<ScanRegion> = if let Some(elf) = config.elf {
-        match rtt_region(elf) {
+        match rtt_region(&elf) {
             Ok(region) => Some(region),
             Err(e) => {
                 log::error!("Failed to get RTT region from ELF: {e}");
