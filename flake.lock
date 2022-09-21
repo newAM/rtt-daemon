@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1663463883,
-        "narHash": "sha256-z8ag4q4In2tOHfftQq23Q1Tx0QQOMOXgL0G5fRFbnsM=",
+        "lastModified": 1663723667,
+        "narHash": "sha256-LfSpyI7AhVLiSJJrKkPR2+FkhSrPmZehLyEIxPr4g/Q=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "352c7ff1b8827846911908dd80475aac46ebbe6c",
+        "rev": "c12fec0a8b82fe2b368d53dc939e32a06580e4e4",
         "type": "github"
       },
       "original": {
