@@ -3,11 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    crane = {
-      url = "github:ipetkov/crane";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flake-utils.url = "github:numtide/flake-utils";
+
+    crane.url = "github:ipetkov/crane";
+    crane.inputs.nixpkgs.follows = "nixpkgs";
+    crane.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = {
@@ -33,14 +33,14 @@
           cargoArtifacts = craneLib.buildDepsOnly {
             inherit src nativeBuildInputs buildInputs;
           };
-
-          nixSrc = nixpkgs.lib.sources.sourceFilesBySuffices ./. [".nix"];
         in {
           packages.default = craneLib.buildPackage {
             inherit src nativeBuildInputs buildInputs cargoArtifacts;
           };
 
-          checks = {
+          checks = let
+            nixSrc = nixpkgs.lib.sources.sourceFilesBySuffices ./. [".nix"];
+          in {
             pkg = self.packages.${system}.default;
 
             clippy = craneLib.cargoClippy {
