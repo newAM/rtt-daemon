@@ -283,7 +283,7 @@ dependencies = [
  "hmac",
  "libc",
  "log",
- "nix 0.23.1",
+ "nix 0.23.2",
  "nom",
  "once_cell",
  "serde",
@@ -352,9 +352,9 @@ dependencies = [
 
 [[package]]
 name = "nix"
-version = "0.23.1"
+version = "0.23.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f866317acbd3a240710c63f065ffb1e4fd466259045ccb504130b7f668f35c6"
+checksum = "8f3790c00a0150112de0f4cd161e3d7fc4b2d8a5542ffc35f099a2562aecb35c"
 dependencies = [
  "bitflags",
  "cc",
@@ -638,9 +638,9 @@ dependencies = [
 
 [[package]]
 name = "systemd-journal-logger"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ceaa903d2e90e5110f5ae21e4adcb3436c68f4bdffa0ce2337a16769f9194a0"
+checksum = "0826e69d44a82806ac59c909ba51f0d54a53a7c24f5e7fa5151b00db3548e2f2"
 dependencies = [
  "libsystemd",
  "log",
