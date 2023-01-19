@@ -346,9 +346,9 @@ dependencies = [
 
 [[package]]
 name = "nix"
-version = "0.26.1"
+version = "0.26.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46a58d1d356c6597d08cde02c2f09d785b09e28711837b1ed667dc652c08a694"
+checksum = "bfdda3d196821d6af13126e40375cdf7da646a96114af134d5f417a9a1dc8e1a"
 dependencies = [
  "bitflags",
  "cfg-if",
@@ -359,9 +359,9 @@ dependencies = [
 
 [[package]]
 name = "nom"
-version = "7.1.2"
+version = "7.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5507769c4919c998e69e49c839d9dc6e693ede4cc4290d6ad8b41d4f09c548c"
+checksum = "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
 dependencies = [
  "memchr",
  "minimal-lexical",
@@ -406,9 +406,9 @@ checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 
 [[package]]
 name = "probe-rs"
-version = "0.14.0"
+version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4521ac1ede1dd5f287c9a7cb48c9a8dd6a671005f4f845a8190ae2e5ed15f0af"
+checksum = "717926460dbc3ff7bc366fd0502433a064eea2a2aa189dbb4abd5396de3716a8"
 dependencies = [
  "anyhow",
  "base64",
@@ -437,9 +437,9 @@ dependencies = [
 
 [[package]]
 name = "probe-rs-rtt"
-version = "0.14.0"
+version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e899e1f8ca0402d30d2dd58e35e793ea06db40ff99286c6a64472280b761d9c3"
+checksum = "6768fd3c3fdc2661e2542d443bfa2ed7f48d27159e36409e65b9db955c1c60fd"
 dependencies = [
  "probe-rs",
  "scroll 0.10.2",
@@ -450,9 +450,9 @@ dependencies = [
 
 [[package]]
 name = "probe-rs-target"
-version = "0.14.0"
+version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5160dee1ffd6f7f89cd7831d470649d52642dce3a8bcd4ad48ca6112fbc31aa7"
+checksum = "f01903e24b4187015ab2c3214e009b67de6658b4fc86c8ab9876808060f7a953"
 dependencies = [
  "base64",
  "jep106",
@@ -461,9 +461,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.49"
+version = "1.0.50"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57a8eca9f9c4ffde41714334dee777596264c7825420f521abc92b5b5deb63a5"
+checksum = "6ef7d57beacfaf2d8aee5937dab7b7f28de3cb8b1828479bb5de2a7106f2bae2"
 dependencies = [
  "unicode-ident",
 ]
