@@ -269,6 +269,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "kmp"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "131bddab59a64213cc1e9f0c5be010d7eb485951358ab7e52017888dec482028"
+
+[[package]]
 name = "libc"
 version = "0.2.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -424,7 +430,39 @@ dependencies = [
  "num-traits",
  "object",
  "once_cell",
- "probe-rs-target",
+ "probe-rs-target 0.14.2",
+ "rusb",
+ "scroll 0.11.0",
+ "serde",
+ "serde_yaml",
+ "static_assertions",
+ "svg",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "probe-rs"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af0cb90573126a62538ec927e644264d5d142a8cb517bff0bb2b6334cb76058f"
+dependencies = [
+ "anyhow",
+ "base64",
+ "bincode",
+ "bitfield",
+ "bitvec",
+ "enum-primitive-derive",
+ "gimli",
+ "hidapi",
+ "ihex",
+ "jaylink",
+ "jep106",
+ "kmp",
+ "num-traits",
+ "object",
+ "once_cell",
+ "probe-rs-target 0.16.0",
  "rusb",
  "scroll 0.11.0",
  "serde",
@@ -441,7 +479,7 @@ version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6768fd3c3fdc2661e2542d443bfa2ed7f48d27159e36409e65b9db955c1c60fd"
 dependencies = [
- "probe-rs",
+ "probe-rs 0.14.2",
  "scroll 0.10.2",
  "serde",
  "thiserror",
@@ -453,6 +491,17 @@ name = "probe-rs-target"
 version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f01903e24b4187015ab2c3214e009b67de6658b4fc86c8ab9876808060f7a953"
+dependencies = [
+ "base64",
+ "jep106",
+ "serde",
+]
+
+[[package]]
+name = "probe-rs-target"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc9506b54a53311ceff6bd66f72ceb766908cf62bb25933d71004929a5d348ee"
 dependencies = [
  "base64",
  "jep106",
@@ -491,7 +540,7 @@ dependencies = [
  "ctrlc",
  "log",
  "object",
- "probe-rs",
+ "probe-rs 0.16.0",
  "probe-rs-rtt",
  "serde",
  "serde_json",
