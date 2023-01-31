@@ -1,6 +1,9 @@
 use anyhow::Context;
-use probe_rs::{config::MemoryRegion, Core, DebugProbeSelector, Probe, Session, Target};
-use probe_rs_rtt::{Rtt, ScanRegion, UpChannel};
+use probe_rs::{
+    config::MemoryRegion,
+    rtt::{Rtt, ScanRegion, UpChannel},
+    Core, DebugProbeSelector, Probe, Session, Target,
+};
 use serde::Deserialize;
 use std::{cmp::min, ffi::OsString, fs::File, io::BufReader, thread::sleep, time::Duration};
 
