@@ -388,8 +388,18 @@ version = "0.30.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ea86265d3d3dcb6a27fc51bd29a4bf387fae9d2986b823079d4986af253eb439"
 dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "object"
+version = "0.31.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d08090140cfee2e09897d6be320b47a45b79eb68b414de87130f9532966e2f1d"
+dependencies = [
  "flate2",
  "memchr",
+ "ruzstd",
 ]
 
 [[package]]
@@ -429,7 +439,7 @@ dependencies = [
  "jep106",
  "kmp",
  "num-traits",
- "object",
+ "object 0.30.3",
  "once_cell",
  "probe-rs-target",
  "rusb",
@@ -484,7 +494,7 @@ dependencies = [
  "anyhow",
  "ctrlc",
  "log",
- "object",
+ "object 0.31.0",
  "probe-rs",
  "serde",
  "serde_json",
@@ -499,6 +509,17 @@ checksum = "44a8c36914f9b1a3be712c1dfa48c9b397131f9a75707e570a391735f785c5d1"
 dependencies = [
  "libc",
  "libusb1-sys",
+]
+
+[[package]]
+name = "ruzstd"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9a15e661f0f9dac21f3494fe5d23a6338c0ac116a2d22c2b63010acd89467ffe"
+dependencies = [
+ "byteorder",
+ "thiserror",
+ "twox-hash",
 ]
 
 [[package]]
@@ -681,6 +702,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "24eb03ba0eab1fd845050058ce5e616558e8f8d8fca633e6b163fe25c797213a"
 dependencies = [
  "once_cell",
+]
+
+[[package]]
+name = "twox-hash"
+version = "1.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97fee6b57c6a41524a810daee9286c02d7752c4253064d0b05472833a438f675"
+dependencies = [
+ "cfg-if",
+ "static_assertions",
 ]
 
 [[package]]
