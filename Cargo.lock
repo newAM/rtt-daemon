@@ -901,9 +901,9 @@ checksum = "26072860ba924cbfa98ea39c8c19b4dd6a4a25423dbdf219c1eca91aa0cf6964"
 
 [[package]]
 name = "probe-rs"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44ac7fc93bdcb1548752e16183edf85923edadf1162a37b20255826ff5048f16"
+checksum = "da6dec485ee49527950926fc3634980c7acb88b22dfb3b45b727ecc4d32e4298"
 dependencies = [
  "anyhow",
  "base64",
@@ -928,6 +928,7 @@ dependencies = [
  "scroll",
  "serde",
  "serde_yaml",
+ "signal-hook",
  "static_assertions",
  "svg",
  "thiserror",
@@ -936,9 +937,9 @@ dependencies = [
 
 [[package]]
 name = "probe-rs-target"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9c72265fbbe2972bb63765fc1bdb255fb9ecef01cce4caeed0e091625ea1441"
+checksum = "d366537c8443497a4634c340a8253903172a528679bd079921f366eb338a4557"
 dependencies = [
  "base64",
  "jep106",
@@ -1191,6 +1192,25 @@ dependencies = [
  "cfg-if",
  "cpufeatures",
  "digest",
+]
+
+[[package]]
+name = "signal-hook"
+version = "0.3.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8621587d4798caf8eb44879d42e56b9a93ea5dcd315a6487c357130095b62801"
+dependencies = [
+ "libc",
+ "signal-hook-registry",
+]
+
+[[package]]
+name = "signal-hook-registry"
+version = "1.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8229b473baa5980ac72ef434c4415e70c4b5e71b423043adb4ba059f89c99a1"
+dependencies = [
+ "libc",
 ]
 
 [[package]]
