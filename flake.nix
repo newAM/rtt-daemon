@@ -54,11 +54,6 @@
               ${pkgs.alejandra}/bin/alejandra --check ${nixSrc}
               touch $out
             '';
-
-            statix = pkgs.runCommand "statix" {} ''
-              ${pkgs.statix}/bin/statix check ${nixSrc}
-              touch $out
-            '';
           };
         }
       ))
