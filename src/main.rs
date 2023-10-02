@@ -44,9 +44,7 @@ struct Config {
 fn main() -> anyhow::Result<()> {
     ctrlc::set_handler(|| std::process::exit(0)).context("failed to set SIGINT handler")?;
 
-    systemd_journal_logger::JournalLog::default()
-        .install()
-        .context("Failed to initialize logging")?;
+    systemd_journal_logger::JournalLog::new().context("Failed to initialize logging")?;
     log::set_max_level(log::LevelFilter::Info);
 
     let config_file_path: OsString = match std::env::args_os().nth(1) {
