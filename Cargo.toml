@@ -14,7 +14,7 @@ anyhow = "1"
 ctrlc = "3"
 log = "0.4"
 object = "0.32"
-probe-rs = "0.20"
+probe-rs = "0.21"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 systemd-journal-logger = "2"
