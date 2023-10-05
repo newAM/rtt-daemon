@@ -32,10 +32,12 @@
 
           cargoArtifacts = craneLib.buildDepsOnly {
             inherit src nativeBuildInputs buildInputs;
+            strictDeps = true;
           };
         in {
           packages.default = craneLib.buildPackage {
             inherit src nativeBuildInputs buildInputs cargoArtifacts;
+            strictDeps = true;
           };
 
           checks = let
@@ -45,6 +47,7 @@
 
             clippy = craneLib.cargoClippy {
               inherit src nativeBuildInputs buildInputs cargoArtifacts;
+              strictDeps = true;
               cargoClippyExtraArgs = "-- --deny warnings";
             };
 
