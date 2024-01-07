@@ -2,7 +2,7 @@ use anyhow::Context;
 use probe_rs::{
     config::MemoryRegion,
     rtt::{Rtt, ScanRegion, UpChannel},
-    Core, DebugProbeSelector, Probe, Session, Target,
+    Core, DebugProbeSelector, Lister, Probe, Session, Target,
 };
 use serde::Deserialize;
 use std::{cmp::min, ffi::OsString, fs::File, io::BufReader, thread::sleep, time::Duration};
@@ -86,7 +86,9 @@ fn main() -> anyhow::Result<()> {
         .context("Probe selector is invalid")?;
 
     log::info!("Opening probe");
-    let probe: Probe = Probe::open(selector).context("Failed to open probe")?;
+    let probe: Probe = Lister::new()
+        .open(selector)
+        .context("Failed to open probe")?;
 
     log::info!("Attaching to target");
     let permissions = probe_rs::Permissions::new();
