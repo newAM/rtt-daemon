@@ -23,7 +23,7 @@
         system: let
           pkgs = nixpkgs.legacyPackages.${system};
           cargoToml = nixpkgs.lib.importTOML ./Cargo.toml;
-          craneLib = crane.lib.${system};
+          craneLib = crane.mkLib pkgs;
 
           src = craneLib.cleanCargoSource ./.;
           nativeBuildInputs = with pkgs; [pkg-config];
