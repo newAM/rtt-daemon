@@ -23,7 +23,7 @@ fn rtt_region(elf_path: &str) -> anyhow::Result<ScanRegion> {
         .address()
         .try_into()
         .context("_SEGGER_RTT symbol is not located at a 32-bit address")?;
-    Ok(ScanRegion::Exact(addr))
+    Ok(ScanRegion::Exact(addr.into()))
 }
 
 #[derive(Deserialize)]
